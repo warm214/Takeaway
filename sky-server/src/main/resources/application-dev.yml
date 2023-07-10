@@ -11,3 +11,25 @@ sky:
       access-key-secret: 3FE3gLBXgJKNjfqrf0czhEtxYR6eVl
       bucket-name: sky-itcast-ljp
       endpoint: oss-cn-beijing.aliyuncs.com
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
