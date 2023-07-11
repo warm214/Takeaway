@@ -125,6 +125,23 @@ public class DishServiceImpl implements DishService {
         return dishVO;
     }
 
+    /**
+     * 菜品起售停售
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Dish dish=new Dish();
+        dish.setStatus( status);
+        dish.setId(id);
+        dishMapper.update(dish);
+    }
+
+    /**
+     * 更新菜品
+     * @param dishDTO
+     */
     @Override
     public void updateDishWithFlavor(DishDTO dishDTO) {
         Dish dish=new Dish();
@@ -146,6 +163,7 @@ public class DishServiceImpl implements DishService {
 
 
     }
+
     /**
      * 根据分类id查询菜品
      * @param categoryId

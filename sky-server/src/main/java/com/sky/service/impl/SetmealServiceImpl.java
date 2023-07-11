@@ -166,6 +166,12 @@ public class SetmealServiceImpl implements SetmealService {
         setmealMapper.update(setmeal);
     }
     /**
+     * 套餐起售、停售
+     * @param status
+     * @param id
+     */
+
+    /**
      * 条件查询
      * @param setmeal
      * @return
