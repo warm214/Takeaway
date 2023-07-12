@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Autowired
@@ -30,26 +31,27 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     /**
      * 添加购物车
+     *
      * @param shoppingCartDTO
      */
     @Override
     public void addShoppingCart(ShoppingCartDTO shoppingCartDTO) {
         //判断当前加入到购物车中的商品是否已经存在
-        ShoppingCart shoppingCart=new ShoppingCart();
-        BeanUtils.copyProperties(shoppingCartDTO,shoppingCart);
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
         Long currentId = BaseContext.getCurrentId();
         shoppingCart.setUserId(currentId);
-        List<ShoppingCart> list=shoppingCartMapper.list(shoppingCart);
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
         //存在，数量加一
-        if (list!=null &&list.size()>0){
+        if (list != null && list.size() > 0) {
             ShoppingCart shoppingCart1 = list.get(0);
-            shoppingCart1.setNumber(shoppingCart1.getNumber()+1);
+            shoppingCart1.setNumber(shoppingCart1.getNumber() + 1);
             shoppingCartMapper.updateNumberById(shoppingCart1);
-        }else {
+        } else {
             //不存在，插入数据
             Long dishId = shoppingCartDTO.getDishId();
             //判断添加到购物车的是菜品还是套餐
-            if(dishId!=null){
+            if (dishId != null) {
                 //本次添加到购物车的是菜品
                 Dish byId = dishMapper.getById(dishId);
                 String name = byId.getName();
@@ -58,7 +60,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                 shoppingCart.setAmount(price);
                 shoppingCart.setImage(image);
                 shoppingCart.setName(name);
-            }else {
+            } else {
                 //本次添加到购物车的是套餐
                 Setmeal byId = setmealMapper.getById(shoppingCartDTO.getSetmealId());
                 shoppingCart.setAmount(byId.getPrice());
@@ -76,6 +78,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     /**
      * 查看购物车
+     *
      * @return
      */
     @Override
@@ -90,5 +93,27 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void cleanShoppingCart() {
         Long currentId = BaseContext.getCurrentId();
         shoppingCartMapper.deleteByUserId(currentId);
+    }
+
+    @Override
+    public void subShoppingCart(ShoppingCartDTO shoppingCartDTO) {
+
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
+        Long currentId = BaseContext.getCurrentId();
+        shoppingCart.setUserId(currentId);
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+
+        ShoppingCart shoppingCart1 = list.get(0);
+        //先判断当前菜品的数量是否为1
+        if (shoppingCart1.getNumber() > 1) {
+            //正常减少数量
+            shoppingCart1.setNumber(shoppingCart1.getNumber() - 1);
+            shoppingCartMapper.updateNumberById(shoppingCart1);
+        } else {
+            //删除该菜品
+            shoppingCartMapper.deleteById(shoppingCart1.getId());
+        }
+
     }
 }

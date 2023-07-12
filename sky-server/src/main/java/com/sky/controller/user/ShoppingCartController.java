@@ -43,6 +43,18 @@ public class ShoppingCartController {
         shoppingCartService.cleanShoppingCart();
         return Result.success();
     }
+    /**
+     *添加购物车
+     * @param shoppingCartDTO
+     * @return
+     */
+    @PostMapping("/sub")
+    @ApiOperation("购物车菜品数量减少")
+    public Result sub(@RequestBody ShoppingCartDTO shoppingCartDTO){
+        log.info("购物车菜品数量减少{}",shoppingCartDTO);
+        shoppingCartService.subShoppingCart(shoppingCartDTO);
+        return Result.success();
+    }
 }
 
 
