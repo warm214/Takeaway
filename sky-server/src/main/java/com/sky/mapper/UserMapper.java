@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -32,6 +33,9 @@ public interface UserMapper {
      */
     @Select("select *from user where id=#{userId}")
     User getById(Long userId);
+
+    //根据动态条件查询用户数量
+    Integer countByMap(Map map);
 }
 
 

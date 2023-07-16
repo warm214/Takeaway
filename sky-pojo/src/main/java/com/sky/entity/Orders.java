@@ -99,7 +99,7 @@ public class Orders implements Serializable {
     //送达时间
     private LocalDateTime deliveryTime;
 
-    //打包费
+    //打包费;
     private int packAmount;
 
     //餐具数量
