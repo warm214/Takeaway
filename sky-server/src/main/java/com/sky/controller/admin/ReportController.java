@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -79,6 +80,16 @@ public class ReportController {
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate end){
         log.info("订单统计{}{}",begin,end);
         return Result.success(reportService.getSalesTop10(begin,end));
+    }
+
+    /**
+     * 导出最近30天的运营数据
+     * @param response
+     */
+    @GetMapping("/export")
+    @ApiOperation("导出最近30天的运营数据")
+    public void export(HttpServletResponse response){
+        reportService.exportBusinessData(response);
     }
 }
 
