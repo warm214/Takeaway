@@ -9,7 +9,7 @@ sky:
   alioss:
       access-key-id: LTAI5tMTqCBCtrxPXDvEzENT
       access-key-secret: 3FE3gLBXgJKNjfqrf0czhEtxYR6eVl
-      bucket-name: sky-itcast-ljp
+      bucket-name: sky-tiankong-ljp
       endpoint: oss-cn-beijing.aliyuncs.com
   redis:
     host: localhost
